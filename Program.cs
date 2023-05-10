@@ -28,7 +28,7 @@ namespace GoofyInjector
             return 0;
         }
 
-        public unsafe static bool OpenTargetProcess(string genshinPath, string cmdLine, ref IntPtr phProcess, ref IntPtr phThread)
+        public static bool OpenTargetProcess(string genshinPath, string cmdLine, ref IntPtr phProcess, ref IntPtr phThread)
         {
             var TokenRet = Win32.OpenProcessToken(Win32.GetCurrentProcess(), Win32.TOKEN_ALL_ACCESS, out var hToken);
             if (!TokenRet)
@@ -51,7 +51,7 @@ namespace GoofyInjector
             var AttributeList = Marshal.AllocHGlobal(lpSize);
             var success = Win32.InitializeProcThreadAttributeList(AttributeList, 1, 0, ref lpSize);
 
-            if (!Win32.UpdateProcThreadAttribute(AttributeList, 0, (IntPtr)0x00020000 /*PROC_THREAD_ATTRIBUTE_PARENT_PROCESS*/, (IntPtr)(&handle), (IntPtr)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
+            if (!Win32.UpdateProcThreadAttribute(AttributeList, 0, (IntPtr)0x00020000 /*PROC_THREAD_ATTRIBUTE_PARENT_PROCESS*/, ref handle, (IntPtr)IntPtr.Size, IntPtr.Zero, IntPtr.Zero))
             {
                 Win32.ThrowLastError(nameof(Win32.UpdateProcThreadAttribute));
             }

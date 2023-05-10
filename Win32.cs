@@ -196,8 +196,6 @@ namespace GoofyInjector
         [DllImport("kernel32.dll", SetLastError = true, ExactSpelling = true)]
         public static extern bool VirtualFreeEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, VFAllocationType dwFreeType);
         [DllImport("kernel32.dll", SetLastError = true)]
-        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
-        [SuppressUnmanagedCodeSecurity]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool CloseHandle(IntPtr hObject);
         [DllImport("advapi32.dll", SetLastError = true)]
@@ -207,8 +205,6 @@ namespace GoofyInjector
         public static extern IntPtr GetCurrentProcess();
         [DllImport("kernel32.dll", SetLastError = true)]
         public static extern IntPtr CreateToolhelp32Snapshot(SnapshotFlags dwFlags, uint th32ProcessID);
-        [DllImport("Kernel32.dll", EntryPoint = "RtlZeroMemory", SetLastError = false)]
-        public static extern void ZeroMemory(IntPtr dest, IntPtr size);
         [DllImport("kernel32.dll")]
         public static extern bool Process32FirstW(IntPtr hSnapshot, ref PROCESSENTRY32 lppe);
         [DllImport("kernel32.dll")]
@@ -220,22 +216,7 @@ namespace GoofyInjector
         public static extern bool InitializeProcThreadAttributeList(IntPtr lpAttributeList, int dwAttributeCount, int dwFlags, ref IntPtr lpSize);
         [DllImport("kernel32.dll", SetLastError = true)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool UpdateProcThreadAttribute(IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, IntPtr lpValue, IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
-        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        public static extern bool CreateProcessAsUser(
-            IntPtr hToken,
-            string lpApplicationName,
-            string lpCommandLine,
-            ref SECURITY_ATTRIBUTES lpProcessAttributes,
-            ref SECURITY_ATTRIBUTES lpThreadAttributes,
-            bool bInheritHandles,
-            uint dwCreationFlags,
-            IntPtr lpEnvironment,
-            string lpCurrentDirectory,
-            ref STARTUPINFOEX lpStartupInfo,
-            out PROCESS_INFORMATION lpProcessInformation
-        );
-
+        public static extern bool UpdateProcThreadAttribute(IntPtr lpAttributeList, uint dwFlags, IntPtr Attribute, ref IntPtr lpValue, IntPtr cbSize, IntPtr lpPreviousValue, IntPtr lpReturnSize);
         [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
         public static extern bool CreateProcessAsUser(
             IntPtr hToken,

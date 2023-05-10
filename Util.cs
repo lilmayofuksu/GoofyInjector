@@ -4,7 +4,7 @@ namespace GoofyInjector
 {
     internal class Util
     {
-        public unsafe static uint FindProcessId(string processName) 
+        public static uint FindProcessId(string processName)
         {
             uint pid = 0xffffffff;
         
